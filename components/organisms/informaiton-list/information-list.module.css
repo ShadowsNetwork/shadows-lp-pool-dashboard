@@ -1,0 +1,23 @@
+.container {
+  width: 1160px;
+  margin: 0 auto;
+  display: flex;
+}
+
+.title {
+  margin: 0 auto 45px;
+  font-size: 1.6em;
+  text-align: center;
+}
+
+@media (max-width: 1160px) {
+  .container {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+}

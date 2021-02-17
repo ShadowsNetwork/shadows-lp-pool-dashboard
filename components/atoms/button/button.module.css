@@ -1,0 +1,11 @@
+.button {
+  width: 200px;
+  height: 52px;
+  background: url(/images/graident.png) no-repeat center center;
+  border: 0;
+  cursor: pointer;
+}
+
+.button span {
+  font-weight: 600;
+}

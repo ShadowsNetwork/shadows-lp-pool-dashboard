@@ -1,0 +1,40 @@
+:root {
+  --red: #E72A7A;
+  --white: white;
+}
+
+#__next {
+  overflow: hidden;
+  width: 100%;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'PingFang SC', -apple-system, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  background-color: #000;
+  color: black;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  outline: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.copier {
+  cursor: pointer;
+}
+
+.copier + * {
+  font-size: 0;
+}

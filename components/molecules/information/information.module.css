@@ -1,0 +1,52 @@
+.information {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.title {
+  font-size: 1.25em;
+  font-weight: 600;
+}
+
+.title a {
+  margin-left: 15px;
+}
+
+.value {
+  margin-top: 15px;
+  font-size: 3.125em;
+  line-height: 1.11em;
+}
+
+.seperate:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 1px;
+  height: 100%;
+  right: 0;
+  top: 0;
+  background: url(/images/graident.png) no-repeat center center;
+}
+
+.seperate:last-child:after {
+  display: none;
+}
+
+.button {
+  margin-top: 30px;
+}
+
+@media (max-width: 768px) {
+  .information {
+    margin-bottom: 50px;
+  }
+
+  .seperate:after {
+    display: none;
+  }
+}

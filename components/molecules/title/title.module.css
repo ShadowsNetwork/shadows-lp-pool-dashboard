@@ -1,0 +1,5 @@
+.title {
+    background: url(/images/graident.png) no-repeat center center;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

@@ -1,0 +1,31 @@
+.wallet {
+  height: 52px;
+  align-items: center;
+  display: flex;
+  border: 1px solid white;
+  padding: 0 20px;
+}
+
+.wallet {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.wallet img {
+  margin-left: 15px;
+}
+
+.balance {
+  padding-right: 15px;
+}
+
+.address {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .wallet {
+    margin-top: 20px;
+  }
+}
