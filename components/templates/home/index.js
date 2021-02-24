@@ -7,6 +7,7 @@ import Transaction from '../../molecules/transaction'
 import InformationList from '../../organisms/informaiton-list'
 import CustomerContext from '../../../contexts/customer.context'
 import constants from '../../../services/constants';
+import * as numberHelper from '../../../helpers/number';
 
 export default function Home() {
   const customer = useContext(CustomerContext);
@@ -19,6 +20,7 @@ export default function Home() {
     const totalLocked = await customer.contracts.lpErc20Token.methods.balanceOf(constants.farmAddress).call({from: address});
     const paidOut = await customer.contracts.farm.methods.paidOut().call({from: address});
     const pool = await customer.contracts.farm.methods.poolInfo(0).call({from: address});
+    // console.log(pool);
     const perShare = pool.accERC20PerShare
     const userInfo = await customer.contracts.farm.methods.userInfo(0, address).call({from: address});
   
@@ -26,11 +28,13 @@ export default function Home() {
     const deposited = await customer.contracts.farm.methods.deposited(0, address).call({from: address});
     const pending = await customer.contracts.farm.methods.pending(0, address).call({from: address});
 
+    const totalLockedInt = parseInt(Web3.utils.fromWei(totalLocked, 'ether'));
+
     setInformations({
       totalLocked: Web3.utils.fromWei(totalLocked, 'ether'),
-      paidOut: Web3.utils.fromWei(paidOut, 'ether'),
+      paidOut: numberHelper.toFix(Web3.utils.fromWei(paidOut, 'ether')),
       totalEarned: Web3.utils.fromWei(userInfo.rewardDebt, 'ether'),
-      perShare: Web3.utils.fromWei(Web3.utils.fromWei(perShare, 'ether'), 'ether'),
+      perShare: numberHelper.toFix(100 / totalLockedInt),
       lpBalance: Web3.utils.fromWei(lpBalance, 'ether'),
       deposited: Web3.utils.fromWei(deposited, 'ether'),
       pending: Web3.utils.fromWei(pending, 'ether'),
@@ -168,7 +172,7 @@ export default function Home() {
               slug: "cd",
               title: 'Claimable DOWS',
               info: 'Claimable DOWS',
-              value: informations.pending,
+              value: numberHelper.toFix(informations.pending),
               onButtonClick: claim,
               buttonTitle: 'Claim DOWS'
             },

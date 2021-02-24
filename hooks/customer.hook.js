@@ -40,17 +40,17 @@ const useCustomer = () => {
         balanceEther,
         shadowsEther;
 
-    if (web3 && web3.eth && typeof address === 'string') {
-      balance = await web3.eth.getBalance(address);
-      shadowsBalance = await erc20Token.methods.balanceOf(address).call();
-      balanceEther = web3.utils.fromWei(balance, 'ether');
-      shadowsEther = await web3.utils.fromWei(shadowsBalance, 'ether');
+    if (contracts.web3  && typeof address === 'string') {
+      balance = await contracts.web3.eth.getBalance(address);
+      shadowsBalance = await contracts.erc20Token.methods.balanceOf(address).call();
+      balanceEther = contracts.web3.utils.fromWei(balance, 'ether');
+      shadowsEther = await contracts.web3.utils.fromWei(shadowsBalance, 'ether');
 
       data.balance = balanceEther;
       data.shadows = shadowsEther;
     }
-
-    if (wallet.address !== data.address || wallet.balance !== data.ether) {
+    
+    if (wallet.address !== data.address || wallet.balance !== data.balance) {
       localStorage['shadows:wallet'] = JSON.stringify(data);
       changeWallet(data);
     }

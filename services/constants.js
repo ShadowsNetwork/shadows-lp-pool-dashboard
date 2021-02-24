@@ -1,5 +1,5 @@
-export default {
-    lpAddress: '0x4E4B8e0D75443A21191aa66B6d2e6286A30B957c',
-    tokenAddress: '0x5C8490DC337eF3022B74FAA5C3413004c3ADe212',
-    farmAddress: '0xB012959Bd5E19C12beF1331A284fb59F56b4C678',
+export default {    lpAddress: '0xa52d9e072bb1847d62c95f7910cf5809b8f4cebe',
+tokenAddress: '0x96d690df3f1f34c836051a97756648e16a4bea9c',
+farmAddress: '0x50FA46ee34DC0be80136b9E7B0c19dbEb05727E4',
+
 }
