@@ -2,9 +2,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1;
   position: relative;
   margin-bottom: 30px;
+  width: 33.333%;
 }
 
 .title {
@@ -33,6 +33,7 @@
   background: url(/images/graident.png) no-repeat center center;
 }
 
+.seperate:nth-child(3):after,
 .seperate:last-child:after {
   display: none;
 }

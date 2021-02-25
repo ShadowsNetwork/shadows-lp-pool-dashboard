@@ -28,6 +28,8 @@ export default function Home() {
     const lpBalance = await customer.contracts.lpErc20Token.methods.balanceOf(address).call({from: address});
     const deposited = await customer.contracts.farm.methods.deposited(0, address).call({from: address});
     const pending = await customer.contracts.farm.methods.pending(0, address).call({from: address});
+    const startBlock = await customer.contracts.farm.methods.startBlock().call({from: address});
+    const endBlock = await customer.contracts.farm.methods.endBlock().call({from: address});
 
     const totalLockedInt = parseInt(Web3.utils.fromWei(totalLocked, 'ether'));
 
@@ -39,6 +41,9 @@ export default function Home() {
       lpBalance: Web3.utils.fromWei(lpBalance, 'ether'),
       deposited: Web3.utils.fromWei(deposited, 'ether'),
       pending: Web3.utils.fromWei(pending, 'ether'),
+      startBlock, 
+      endBlock, 
+      rewardPerBlock: _rewardPerBlock
     });
   }
 
@@ -144,6 +149,24 @@ export default function Home() {
               title: 'DOWS / LP',
               info: 'DOWS / LP',
               value: `1  =  ${informations.perShare || '--'}`,
+            },
+            {
+              slug: "sb",
+              title: 'Start Block',
+              info: 'Start Block',
+              value: informations.startBlock,
+            },
+            {
+              slug: "en",
+              title: 'End Block',
+              info: 'End Block',
+              value: informations.endBlock,
+            },
+            {
+              slug: "rpb",
+              title: 'Claimable DOWS',
+              info: 'Claimable DOWS',
+              value: informations.rewardPerBlock,
             },
           ]}
         />
