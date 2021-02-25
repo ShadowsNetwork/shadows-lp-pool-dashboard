@@ -5,7 +5,9 @@ import styles from './modal.module.css'
 export default function Modal({onClose, children}) {
   const handleClickOverlay = (e) => {
     if (!e.target.closest('#modal-content')) {
-      onClose()
+      if (onClose) {
+        onClose();
+      }
     }
   };
 

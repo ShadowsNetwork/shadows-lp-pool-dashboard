@@ -20,8 +20,9 @@ export default function Home() {
     const totalLocked = await customer.contracts.lpErc20Token.methods.balanceOf(constants.farmAddress).call({from: address});
     const paidOut = await customer.contracts.farm.methods.paidOut().call({from: address});
     const pool = await customer.contracts.farm.methods.poolInfo(0).call({from: address});
-    // console.log(pool);
-    const perShare = pool.accERC20PerShare
+    const rewardPerBlock = await customer.contracts.farm.methods.rewardPerBlock().call({from: address});
+    const _rewardPerBlock =  parseInt(Web3.utils.fromWei(rewardPerBlock, 'ether'));
+
     const userInfo = await customer.contracts.farm.methods.userInfo(0, address).call({from: address});
   
     const lpBalance = await customer.contracts.lpErc20Token.methods.balanceOf(address).call({from: address});
@@ -34,7 +35,7 @@ export default function Home() {
       totalLocked: Web3.utils.fromWei(totalLocked, 'ether'),
       paidOut: numberHelper.toFix(Web3.utils.fromWei(paidOut, 'ether')),
       totalEarned: Web3.utils.fromWei(userInfo.rewardDebt, 'ether'),
-      perShare: numberHelper.toFix(100 / totalLockedInt),
+      perShare: totalLockedInt > 0 && _rewardPerBlock > 0 ? numberHelper.toFix(_rewardPerBlock / totalLockedInt) : 'TBD',
       lpBalance: Web3.utils.fromWei(lpBalance, 'ether'),
       deposited: Web3.utils.fromWei(deposited, 'ether'),
       pending: Web3.utils.fromWei(pending, 'ether'),
@@ -63,7 +64,6 @@ export default function Home() {
         setTx(hash);
       })
       .then(() => {
-        setTx('');
       }).catch((err) => {
         console.log(err);
       });
