@@ -152,20 +152,20 @@ export default function Home() {
             },
             {
               slug: "sb",
-              title: 'Start Block',
-              info: 'Start Block',
+              title: 'Start Block #',
+              info: 'Start Block #',
               value: informations.startBlock,
             },
             {
               slug: "en",
-              title: 'End Block',
-              info: 'End Block',
+              title: 'End Block #',
+              info: 'End Block #',
               value: informations.endBlock,
             },
             {
               slug: "rpb",
-              title: 'Claimable DOWS',
-              info: 'Claimable DOWS',
+              title: 'Reward per Block',
+              info: 'Reward per Block',
               value: informations.rewardPerBlock,
             },
           ]}
