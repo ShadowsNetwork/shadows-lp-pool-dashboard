@@ -6,7 +6,8 @@ export const toFix = (str, length = 5) => {
   }
 
   try {
-    return parseFloat(str).toPrecision(length);
+    return new Intl.NumberFormat('de-DE').format(str);
+    // return parseFloat(str).toPrecision(length);
   } catch (_err) {
     return 0;
   }

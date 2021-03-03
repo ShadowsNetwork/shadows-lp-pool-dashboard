@@ -34,13 +34,13 @@ export default function Home() {
     const totalLockedInt = parseInt(Web3.utils.fromWei(totalLocked, 'ether'));
 
     setInformations({
-      totalLocked: Web3.utils.fromWei(totalLocked, 'ether'),
+      totalLocked: numberHelper.toFix(Web3.utils.fromWei(totalLocked, 'ether')),
       paidOut: numberHelper.toFix(Web3.utils.fromWei(paidOut, 'ether')),
-      totalEarned: Web3.utils.fromWei(userInfo.rewardDebt, 'ether'),
+      totalEarned: numberHelper.toFix(Web3.utils.fromWei(userInfo.rewardDebt, 'ether')),
       perShare: totalLockedInt > 0 && _rewardPerBlock > 0 ? numberHelper.toFix(_rewardPerBlock / totalLockedInt) : 'TBD',
-      lpBalance: Web3.utils.fromWei(lpBalance, 'ether'),
-      deposited: Web3.utils.fromWei(deposited, 'ether'),
-      pending: Web3.utils.fromWei(pending, 'ether'),
+      lpBalance: numberHelper.toFix(Web3.utils.fromWei(lpBalance, 'ether')),
+      deposited: numberHelper.toFix(Web3.utils.fromWei(deposited, 'ether')),
+      pending: numberHelper.toFix(Web3.utils.fromWei(pending, 'ether')),
       startBlock, 
       endBlock, 
       rewardPerBlock: _rewardPerBlock
