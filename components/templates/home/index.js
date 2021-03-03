@@ -37,7 +37,7 @@ export default function Home() {
       totalLocked: numberHelper.toFix(Web3.utils.fromWei(totalLocked, 'ether')),
       paidOut: numberHelper.toFix(Web3.utils.fromWei(paidOut, 'ether')),
       totalEarned: numberHelper.toFix(Web3.utils.fromWei(userInfo.rewardDebt, 'ether')),
-      perShare: totalLockedInt > 0 && _rewardPerBlock > 0 ? numberHelper.toFix(_rewardPerBlock / totalLockedInt) : 'TBD',
+      perShare: totalLockedInt > 0 && _rewardPerBlock > 0 ? numberHelper.toFix(_rewardPerBlock / totalLockedInt, 3) : 'TBD',
       lpBalance: numberHelper.toFix(Web3.utils.fromWei(lpBalance, 'ether')),
       deposited: numberHelper.toFix(Web3.utils.fromWei(deposited, 'ether')),
       pending: numberHelper.toFix(Web3.utils.fromWei(pending, 'ether')),
@@ -166,7 +166,7 @@ export default function Home() {
               slug: "rpb",
               title: 'Reward per Block',
               info: 'Reward per Block',
-              value: informations.rewardPerBlock,
+              value: `${informations.rewardPerBlock} DOWS`,
             },
           ]}
         />
