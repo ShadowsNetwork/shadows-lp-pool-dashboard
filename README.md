@@ -35,6 +35,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 
 ```bash
-docker build . -t=dev:shadows
-docker run -it --rm -v ${PWD}:/app -v /app/node_modules -p 3000:3000 dev:shadows
+docker build . -t=shadowsnetwork/unipooltest:latest
+docker push shadowsnetwork/unipooltest:latest
+docker run -it --rm -v ${PWD}:/app -v /app/node_modules -p 3000:3000 shadowsnetwork/unipooltest
 ```
