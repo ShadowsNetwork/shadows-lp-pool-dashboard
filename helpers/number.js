@@ -1,12 +1,13 @@
 const formatter = new Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 })
 
-export const toFix = (str, length = 5) => {
+export const toFix = (str, length = 2) => {
   if (typeof str === 'undefined') {
     return 0;
   }
 
   try {
-    return parseFloat(str).toPrecision(length);
+    return parseFloat(str).toFixed(length);
+    // return parseFloat(str).toPrecision(length);
   } catch (_err) {
     return 0;
   }

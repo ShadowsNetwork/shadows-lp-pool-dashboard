@@ -6,7 +6,7 @@ import styles from './information.module.css'
 import Text from '../../atoms/text';
 import Button from '../../atoms/button';
 
-const Information = ({slug, title, value, info, buttonTitle, onButtonClick, seperate}) => {
+const Information = ({slug, title, value, info, buttonTitle, onButtonClick, disable, seperate}) => {
   return (
     <div className={cx(styles.information, seperate && styles.seperate)}>
       <div className={styles.title}>
@@ -26,7 +26,7 @@ const Information = ({slug, title, value, info, buttonTitle, onButtonClick, sepe
         <Text color="white">{value || '--'}</Text>
       </div>
       {buttonTitle && (
-        <Button className={styles.button} onClick={onButtonClick}>
+        <Button className={styles.button} onClick={onButtonClick} disabled={disable}>
           {buttonTitle}
         </Button>
       )}

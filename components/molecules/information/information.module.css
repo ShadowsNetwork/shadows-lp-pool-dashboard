@@ -42,6 +42,11 @@
   margin-top: 30px;
 }
 
+.button:disabled {
+  background: #f1f1f1;
+  opacity: 0.5;
+}
+
 @media (max-width: 768px) {
   .information {
     margin-bottom: 50px;

@@ -13,6 +13,7 @@ export default function Home() {
   const customer = useContext(CustomerContext);
   const [informations, setInformations] = useState({});
   const [tx, setTx] = useState('');
+  const [disable, setDisable] = useState('');
 
   const refresh = async () => {
     const {address} = customer.wallet;
@@ -34,13 +35,13 @@ export default function Home() {
     const totalLockedInt = parseInt(Web3.utils.fromWei(totalLocked, 'ether'));
 
     setInformations({
-      totalLocked: Web3.utils.fromWei(totalLocked, 'ether'),
+      totalLocked: numberHelper.toFix(Web3.utils.fromWei(totalLocked, 'ether')),
       paidOut: numberHelper.toFix(Web3.utils.fromWei(paidOut, 'ether')),
-      totalEarned: Web3.utils.fromWei(userInfo.rewardDebt, 'ether'),
-      perShare: totalLockedInt > 0 && _rewardPerBlock > 0 ? numberHelper.toFix(_rewardPerBlock / totalLockedInt) : 'TBD',
-      lpBalance: Web3.utils.fromWei(lpBalance, 'ether'),
-      deposited: Web3.utils.fromWei(deposited, 'ether'),
-      pending: Web3.utils.fromWei(pending, 'ether'),
+      totalEarned: numberHelper.toFix(Web3.utils.fromWei(userInfo.rewardDebt, 'ether')),
+      perShare: totalLockedInt > 0 && _rewardPerBlock > 0 ? numberHelper.toFix(_rewardPerBlock / totalLockedInt, 3) : 'TBD',
+      lpBalance: numberHelper.toFix(Web3.utils.fromWei(lpBalance, 'ether')),
+      deposited: numberHelper.toFix(Web3.utils.fromWei(deposited, 'ether')),
+      pending: numberHelper.toFix(Web3.utils.fromWei(pending, 'ether')),
       startBlock, 
       endBlock, 
       rewardPerBlock: _rewardPerBlock
@@ -59,74 +60,83 @@ export default function Home() {
   }, [customer.wallet.balance, customer.wallet.shadows, customer.wallet.address])
 
   const lock = async () => {
-    const {address} = customer.wallet;
+    try {
+      const {address} = customer.wallet;
+  
+      setDisable('lock');
+      const lpBalance = await customer.contracts.lpErc20Token.methods.balanceOf(address).call({from: address});
+      await customer.contracts.lpErc20Token.methods
+        .approve(constants.farmAddress, lpBalance)
+        .send({ from: address })
+        .on('transactionHash', (hash) => {
+          setTx(hash);
+        });
+  
+      await customer.contracts.farm.methods
+        .deposit(0, lpBalance)
+        .send({ from: address })
+        .on('transactionHash', (hash) => {
+          setTx(hash);
+        });
+  
+      setTx('');
+    } catch(err) {
+      console.log(err)
+    }
 
-    const lpBalance = await customer.contracts.lpErc20Token.methods.balanceOf(address).call({from: address});
-    customer.contracts.lpErc20Token.methods
-      .approve(constants.farmAddress, lpBalance)
-      .send({ from: address })
-      .on('transactionHash', (hash) => {
-        setTx(hash);
-      })
-      .then(() => {
-      }).catch((err) => {
-        console.log(err);
-      });
-
-    customer.contracts.farm.methods
-      .deposit(0, lpBalance)
-      .send({ from: address })
-      .on('transactionHash', (hash) => {
-        setTx(hash);
-      })
-      .then(() => {
-        setTx('');
-        refresh();
-      }).catch((err) => {
-        console.log(err);
-      });
+    setDisable('');
   }
 
   const unlock = async () => {
     const {address} = customer.wallet;
     const userInfo = await customer.contracts.farm.methods.userInfo(0, address).call({from: address});
     
-    customer.contracts.farm.methods
-      .withdraw(0, userInfo.amount)
-      .send({ from: address })
-      .on('transactionHash', (hash) => {
-        setTx(hash);
-      })
-      .then(() => {
-        setTx('');
-        refresh();
-      }).catch((err) => {
-        console.log(err);
-      });;
+    setDisable('unlock');
+
+    try {
+      await customer.contracts.farm.methods
+        .withdraw(0, userInfo.amount)
+        .send({ from: address })
+        .on('transactionHash', (hash) => {
+          setTx(hash);
+        });
+
+      setTx('');
+      refresh();
+    } catch (err) {  
+    }
+
+    setDisable('');
   }
 
   const claim = async () => {
     const {address} = customer.wallet;
 
-    customer.contracts.farm.methods
-      .withdraw(0, 0)
-      .send({ from: address })
-      .on('transactionHash', (hash) => {
-        setTx(hash);
-      })
-      .then(() => {
-        setTx('');
-        refresh();
-      }).catch((err) => {
-        console.log(err);
-      });;
+    setDisable('claim');
+
+    try {
+      await customer.contracts.farm.methods
+        .withdraw(0, 0)
+        .send({ from: address })
+        .on('transactionHash', (hash) => {
+          setTx(hash);
+        })
+
+
+      setTx('');
+      refresh();
+    } catch (error) {
+      
+    }
+   
+    setDisable('');
   }
 
   return (
     <>
       <Header />
       {tx && (
-        <Transaction tx={tx} />
+        <Transaction tx={tx} onClose={() => setTx('')} />
       )}
       <div style={{padding: '80px 0'}}>
         <InformationList
@@ -140,8 +150,8 @@ export default function Home() {
             },
             {
               slug: "tde",
-              title: 'Total DOWS Earned',
-              info: 'Total DOWS Earned',
+              title: 'Total DOWS Claimed',
+              info: 'Total DOWS Claimed',
               value: informations.paidOut,
             },
             {
@@ -152,21 +162,21 @@ export default function Home() {
             },
             {
               slug: "sb",
-              title: 'Start Block',
-              info: 'Start Block',
+              title: 'Start Block #',
+              info: 'Start Block #',
               value: informations.startBlock,
             },
             {
               slug: "en",
-              title: 'End Block',
-              info: 'End Block',
+              title: 'End Block #',
+              info: 'End Block #',
               value: informations.endBlock,
             },
             {
               slug: "rpb",
-              title: 'Claimable DOWS',
-              info: 'Claimable DOWS',
-              value: informations.rewardPerBlock,
+              title: 'Reward per Block',
+              info: 'Reward per Block',
+              value: informations.rewardPerBlock ? `${informations.rewardPerBlock} DOWS` : '',
             },
           ]}
         />
@@ -180,6 +190,7 @@ export default function Home() {
               title: 'LP tokens to lock',
               info: 'LP tokens to lock',
               value: informations.lpBalance,
+              disable: disable === 'lock',
               onButtonClick: lock,
               buttonTitle: 'Lock LP Tokens'
             },
@@ -188,6 +199,7 @@ export default function Home() {
               title: 'Locked LP Tokens',
               info: 'Locked LP Tokens',
               value: informations.deposited,
+              disable: disable === 'unlock',
               onButtonClick: unlock,
               buttonTitle: 'Unlock LP Tokens'
             },
@@ -196,6 +208,7 @@ export default function Home() {
               title: 'Claimable DOWS',
               info: 'Claimable DOWS',
               value: numberHelper.toFix(informations.pending),
+              disable: disable === 'claim',
               onButtonClick: claim,
               buttonTitle: 'Claim DOWS'
             },
