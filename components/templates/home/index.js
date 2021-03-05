@@ -8,14 +8,17 @@ import InformationList from '../../organisms/informaiton-list'
 import CustomerContext from '../../../contexts/customer.context'
 import constants from '../../../services/constants';
 import * as numberHelper from '../../../helpers/number';
+import Refresh from '../../molecules/refresh'
 
 export default function Home() {
   const customer = useContext(CustomerContext);
   const [informations, setInformations] = useState({});
   const [tx, setTx] = useState('');
   const [disable, setDisable] = useState('');
+  const [onRefresh, setOnRefresh] = useState(false);
 
   const refresh = async () => {
+    setOnRefresh(true);
     const {address} = customer.wallet;
 
     const totalLocked = await customer.contracts.lpErc20Token.methods.balanceOf(constants.farmAddress).call({from: address});
@@ -34,6 +37,7 @@ export default function Home() {
 
     const totalLockedInt = parseInt(Web3.utils.fromWei(totalLocked, 'ether'));
 
+    setOnRefresh(false);
     setInformations({
       totalLocked: numberHelper.toFix(Web3.utils.fromWei(totalLocked, 'ether')),
       paidOut: numberHelper.toFix(Web3.utils.fromWei(paidOut, 'ether')),
@@ -84,7 +88,7 @@ export default function Home() {
       console.log(err)
     }
 
-    setDisable('');
+    //setDisable('');
   }
 
   const unlock = async () => {
@@ -106,7 +110,7 @@ export default function Home() {
     } catch (err) {  
     }
 
-    setDisable('');
+    //setDisable('');
   }
 
   const claim = async () => {
@@ -129,12 +133,15 @@ export default function Home() {
       
     }
    
-    setDisable('');
+    //setDisable('');
   }
 
   return (
     <>
       <Header />
+      {onRefresh && (
+        <Refresh onClose={()=>{}} />
+      )}
       {tx && (
         <Transaction tx={tx} onClose={() => setTx('')} />
       )}

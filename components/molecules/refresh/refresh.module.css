@@ -1,0 +1,76 @@
+.refresh {
+  color: var(--red);  
+}
+
+.title {
+  font-size: 1.5em;
+  line-height: 1em;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 30px;
+  display: block;
+}
+
+.button {
+  width: 100%;
+  font-size: 1.16em;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.refresh {
+  display: flex;
+  align-items: center;
+}
+
+.refresh img {
+  margin-right: 5px;
+}
+
+.maxAllocationContent {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttonIcon {
+  height: 20px;
+  margin-right: 10px;;
+}
+
+@-webkit-keyframes rotating /* Safari and Chrome */ {
+  from {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.rotating {
+  -webkit-animation: rotating 2s linear infinite;
+  -moz-animation: rotating 2s linear infinite;
+  -ms-animation: rotating 2s linear infinite;
+  -o-animation: rotating 2s linear infinite;
+  animation: rotating 2s linear infinite;
+}

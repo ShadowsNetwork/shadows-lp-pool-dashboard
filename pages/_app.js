@@ -13,9 +13,10 @@ function App({ Component, pageProps }) {
     <>
       <Head>
         <title>Shadows</title>
-        <link href="//db.onlinewebfonts.com/c/05e476e067ffef74ca5686f229c40a63?family=PingFang+SC" rel="stylesheet" type="text/css"/>
+        <link rel="icon" href="/images/favicon.ico" />
 
         {/* <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png" />
+        <link href="//db.onlinewebfonts.com/c/05e476e067ffef74ca5686f229c40a63?family=PingFang+SC" rel="stylesheet" type="text/css"/>
         <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png" />
         <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png" />
         <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png" />
