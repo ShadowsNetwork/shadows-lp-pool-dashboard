@@ -26,6 +26,7 @@ export default function Home() {
     const pool = await customer.contracts.farm.methods.poolInfo(0).call({from: address});
     const rewardPerBlock = await customer.contracts.farm.methods.rewardPerBlock().call({from: address});
     const _rewardPerBlock =  parseInt(Web3.utils.fromWei(rewardPerBlock, 'ether'));
+    console.log(rewardPerBlock,_rewardPerBlock);
 
     const userInfo = await customer.contracts.farm.methods.userInfo(0, address).call({from: address});
   
